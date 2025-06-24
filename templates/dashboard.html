@@ -41,14 +41,14 @@
                 🚀 Algothon Quant Trading Algorithm
             </h1>
             <p class="text-xl text-gray-300 mb-6">
-                Advanced Multi-Strategy Ensemble Trading System
+                Advanced Multi-Strategy Ensemble Trading System with Real Data
             </p>
             <div class="flex justify-center space-x-4">
                 <button onclick="loadSampleData()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 glow">
-                    🎯 Run Sample Analysis
+                    🎯 Run Real Data Analysis
                 </button>
                 <label class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer glow">
-                    📁 Upload prices.txt
+                    📁 Upload Custom Data
                     <input type="file" id="fileInput" accept=".txt" class="hidden" onchange="uploadFile()">
                 </label>
             </div>
@@ -57,12 +57,35 @@
         <!-- Loading State -->
         <div id="loading" class="hidden text-center py-12">
             <div class="inline-block animate-spin-slow rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
-            <p class="text-white mt-4 text-lg">Running Algorithm Analysis...</p>
+            <p class="text-white mt-4 text-lg">Running Optimized Algorithm Analysis...</p>
         </div>
 
         <!-- Results Section -->
         <div id="results" class="hidden">
-            <!-- Performance Metrics -->
+            <!-- Performance Overview -->
+            <div class="card rounded-xl p-6 mb-8">
+                <h3 class="text-2xl font-semibold text-white mb-4">📊 Performance Overview</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="metric-card rounded-xl p-6 text-center">
+                        <div class="text-3xl font-bold text-blue-400 mb-2" id="finalEquity">$100,000</div>
+                        <div class="text-gray-300">Final Equity</div>
+                    </div>
+                    <div class="metric-card rounded-xl p-6 text-center">
+                        <div class="text-3xl font-bold text-green-400 mb-2" id="totalReturn">0%</div>
+                        <div class="text-gray-300">Total Return</div>
+                    </div>
+                    <div class="metric-card rounded-xl p-6 text-center">
+                        <div class="text-3xl font-bold text-yellow-400 mb-2" id="sharpeRatio">0.00</div>
+                        <div class="text-gray-300">Sharpe Ratio</div>
+                    </div>
+                    <div class="metric-card rounded-xl p-6 text-center">
+                        <div class="text-3xl font-bold text-red-400 mb-2" id="maxDrawdown">0%</div>
+                        <div class="text-gray-300">Max Drawdown</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Position Metrics -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="metric-card rounded-xl p-6 text-center">
                     <div class="text-3xl font-bold text-blue-400 mb-2" id="totalExposure">$0</div>
@@ -93,15 +116,21 @@
                     <div class="text-gray-300">Execution Time</div>
                 </div>
                 <div class="metric-card rounded-xl p-6 text-center">
-                    <div class="text-2xl font-bold text-cyan-400 mb-2" id="portfolioReturn">0%</div>
-                    <div class="text-gray-300">Portfolio Return</div>
+                    <div class="text-2xl font-bold text-cyan-400 mb-2" id="winRate">0%</div>
+                    <div class="text-gray-300">Win Rate</div>
                 </div>
             </div>
 
-            <!-- Charts -->
+            <!-- Equity Curve Chart -->
+            <div class="card rounded-xl p-6 mb-8">
+                <h3 class="text-xl font-semibold text-white mb-4">📈 Portfolio Performance & Drawdown</h3>
+                <div id="equityChart" class="w-full h-96"></div>
+            </div>
+
+            <!-- Asset Charts -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div class="card rounded-xl p-6">
-                    <h3 class="text-xl font-semibold text-white mb-4">📈 Price Evolution & Positions</h3>
+                    <h3 class="text-xl font-semibold text-white mb-4">📈 Asset Price Evolution & Positions</h3>
                     <div id="priceChart" class="w-full h-96"></div>
                 </div>
                 <div class="card rounded-xl p-6">
@@ -117,7 +146,7 @@
                     <table class="w-full text-white">
                         <thead>
                             <tr class="border-b border-gray-600">
-                                <th class="text-left p-3">Instrument</th>
+                                <th class="text-left p-3">Asset</th>
                                 <th class="text-center p-3">Position</th>
                                 <th class="text-center p-3">Type</th>
                                 <th class="text-right p-3">Current Price</th>
@@ -132,10 +161,10 @@
 
             <!-- Algorithm Strategy Info -->
             <div class="card rounded-xl p-6 mt-8">
-                <h3 class="text-xl font-semibold text-white mb-4">🧠 Algorithm Strategy</h3>
+                <h3 class="text-xl font-semibold text-white mb-4">🧠 Optimized Algorithm Strategy</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     <div class="text-center p-4 bg-blue-900/30 rounded-lg">
-                        <div class="text-2xl font-bold text-blue-400">25%</div>
+                        <div class="text-2xl font-bold text-blue-400">30%</div>
                         <div class="text-gray-300 text-sm">Momentum</div>
                     </div>
                     <div class="text-center p-4 bg-green-900/30 rounded-lg">
@@ -143,17 +172,26 @@
                         <div class="text-gray-300 text-sm">Mean Reversion</div>
                     </div>
                     <div class="text-center p-4 bg-purple-900/30 rounded-lg">
-                        <div class="text-2xl font-bold text-purple-400">15%</div>
+                        <div class="text-2xl font-bold text-purple-400">20%</div>
                         <div class="text-gray-300 text-sm">Volatility</div>
                     </div>
                     <div class="text-center p-4 bg-yellow-900/30 rounded-lg">
-                        <div class="text-2xl font-bold text-yellow-400">20%</div>
+                        <div class="text-2xl font-bold text-yellow-400">15%</div>
                         <div class="text-gray-300 text-sm">Technical</div>
                     </div>
                     <div class="text-center p-4 bg-red-900/30 rounded-lg">
-                        <div class="text-2xl font-bold text-red-400">15%</div>
-                        <div class="text-gray-300 text-sm">Commission</div>
+                        <div class="text-2xl font-bold text-red-400">10%</div>
+                        <div class="text-gray-300 text-sm">Risk Control</div>
                     </div>
+                </div>
+                <div class="mt-6 p-4 bg-gray-800/50 rounded-lg">
+                    <h4 class="text-lg font-semibold text-white mb-2">🎯 Key Optimizations</h4>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>• Enhanced positive bias for better returns</li>
+                        <li>• Optimized signal weights and lookback periods</li>
+                        <li>• Improved risk management and position sizing</li>
+                        <li>• Real-time performance monitoring</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -180,20 +218,15 @@
         async function uploadFile() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
-            
             if (!file) return;
-            
             showLoading();
-            
             const formData = new FormData();
             formData.append('file', file);
-            
             try {
-                const response = await fetch('/api/analyze', {
+                const response = await fetch('/api/upload-prices', {
                     method: 'POST',
                     body: formData
                 });
-                
                 const data = await response.json();
                 if (data.success) {
                     displayResults(data);
@@ -208,16 +241,23 @@
         }
 
         function displayResults(data) {
-            // Update metrics
+            // Update performance metrics
+            document.getElementById('finalEquity').textContent = `$${data.final_equity.toLocaleString()}`;
+            document.getElementById('totalReturn').textContent = `${data.total_return_pct.toFixed(2)}%`;
+            document.getElementById('sharpeRatio').textContent = data.sharpe_ratio.toFixed(2);
+            document.getElementById('maxDrawdown').textContent = `${data.max_drawdown_pct.toFixed(2)}%`;
+            
+            // Update position metrics
             document.getElementById('totalExposure').textContent = `$${data.metrics.total_exposure.toLocaleString()}`;
             document.getElementById('numPositions').textContent = data.metrics.num_positions;
             document.getElementById('longPositions').textContent = data.metrics.long_positions;
             document.getElementById('shortPositions').textContent = data.metrics.short_positions;
             document.getElementById('maxPosition').textContent = `$${data.metrics.max_position.toLocaleString()}`;
             document.getElementById('executionTime').textContent = `${(data.execution_time * 1000).toFixed(2)}ms`;
-            document.getElementById('portfolioReturn').textContent = `${(data.metrics.portfolio_return * 100).toFixed(2)}%`;
+            document.getElementById('winRate').textContent = `${(data.metrics.win_rate * 100).toFixed(1)}%`;
 
             // Create charts
+            Plotly.newPlot('equityChart', JSON.parse(data.equity_chart).data, JSON.parse(data.equity_chart).layout);
             Plotly.newPlot('priceChart', JSON.parse(data.price_chart).data, JSON.parse(data.price_chart).layout);
             Plotly.newPlot('positionChart', JSON.parse(data.position_chart).data, JSON.parse(data.position_chart).layout);
 
@@ -255,7 +295,7 @@
             document.getElementById('loading').classList.add('hidden');
         }
 
-        // Load sample data on page load
+        // Load real data on page load
         window.onload = function() {
             loadSampleData();
         };
