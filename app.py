@@ -217,7 +217,7 @@ def generate_sample_data():
     return prices
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5050))
     print("🚀 Starting Algothon Quant Trading Algorithm Dashboard...")
     print(f"📊 Open http://localhost:{port} in your browser")
     print("🎯 Upload prices.txt or use sample data to test the algorithm")
